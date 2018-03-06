@@ -1,0 +1,26 @@
+{
+    "name": "makenovel",
+    "displayName": "makeNovel",
+    "description": "makeNovel Language",
+    "version": "0.0.1",
+    "publisher": "vkbo",
+    "engines": {
+        "vscode": "^1.20.0"
+    },
+    "categories": [
+        "Languages"
+    ],
+    "contributes": {
+        "languages": [{
+            "id": "makenovel",
+            "aliases": ["makenovel", "makenovel"],
+            "extensions": [".nwf"],
+            "configuration": "./language-configuration.json"
+        }],
+        "grammars": [{
+            "language": "makenovel",
+            "scopeName": "source.makenovel",
+            "path": "./syntaxes/makenovel.tmLanguage.json"
+        }]
+    }
+}

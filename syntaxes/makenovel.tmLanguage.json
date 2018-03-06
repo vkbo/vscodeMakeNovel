@@ -1,0 +1,78 @@
+{
+  "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+  "name": "makenovel",
+  "patterns": [
+    { "include": "#comments" },
+    { "include": "#commands" },
+    { "include": "#strings" },
+    { "include": "#text" }
+  ],
+  "repository": {
+    "comments": {
+      "patterns": [
+        {
+          "begin": "#",
+          "end": "\\n",
+          "name": "comment.line.makenovel"
+        }
+      ]
+    },
+    "commands": {
+      "patterns": [
+        {
+          "begin": "(?xi)^\\s*(@)([a-zA-Z]+)\\s+([a-zA-Z]+:)?",
+          "beginCaptures": {
+            "1": {"name": "keyword.control.starter.makenovel"},
+            "2": {"name": "keyword.control.command.makenovel"},
+            "3": {"name": "support.function.makenovel"}
+          },
+          "patterns": [
+            { "include": "#strings" },
+            { "include": "#numbers" }
+          ],
+          "end": "\\n"
+        }
+      ]
+    },
+    "strings": {
+      "name": "string.quoted.double.makenovel",
+      "begin": "\"",
+      "end": "\"",
+      "patterns": [
+        {
+          "name": "constant.character.escape.makenovel",
+          "match": "\\\\."
+        }
+      ]
+    },
+    "text": {
+      "patterns": [
+        {
+          "match": "(?<![\\w|\\\\])([\\*]{2})(?!\\s)(?m:(.+?))(?<![\\s|\\\\])(\\1)(?!\\w)",
+          "name": "markup.bold.makenovel"
+        },
+        {
+          "match": "(?<![\\w|_|\\\\])([_])(?!\\s|\\1)(?m:(.+?))(?<![\\s|\\\\])(\\1)(?!\\w)",
+          "name": "markup.italic.makenovel"
+        }
+      ]
+    },
+    "numbers": {
+      "patterns": [
+        {
+          "match": "\\b(?<!\\.)([0-9]+\\.{1}[0-9]*)\\b",
+          "captures": {
+            "1": {"name": "constant.numeric.float.makenovel"}
+          }
+        },
+        {
+          "match": "\\b(?<!\\.)([0-9]+)\\b",
+          "captures": {
+            "1": {"name": "constant.numeric.integer.makenovel"}
+          }
+        }
+      ]
+    }
+  },
+  "scopeName": "source.makenovel"
+}
