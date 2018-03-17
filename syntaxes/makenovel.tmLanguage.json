@@ -1,11 +1,13 @@
 {
   "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
   "name": "makenovel",
+  "scopeName": "source.makenovel",
   "patterns": [
     { "include": "#comments" },
+    { "include": "#keywords" },
     { "include": "#commands" },
     { "include": "#strings" },
-    { "include": "#text" }
+    { "include": "#markup" }
   ],
   "repository": {
     "comments": {
@@ -17,20 +19,107 @@
         }
       ]
     },
+    "keywords": {
+      "patterns": [
+        {
+          "match": "(?xi)^[ \\t]*(@)(master|scene)\\b",
+          "captures": {
+            "1": {"name": "keyword.control.starter.makenovel"},
+            "2": {"name": "keyword.control.command.makenovel"}
+          }
+        }
+      ]
+    },
     "commands": {
       "patterns": [
         {
-          "begin": "(?xi)^\\s*(@)([a-zA-Z]+)\\s+([a-zA-Z]+:)?",
+          "begin": "(?xi)^[ \\t]*(@)(set)[ \\t]*\\b",
           "beginCaptures": {
             "1": {"name": "keyword.control.starter.makenovel"},
-            "2": {"name": "keyword.control.command.makenovel"},
-            "3": {"name": "support.function.makenovel"}
+            "2": {"name": "keyword.control.command.makenovel"}
           },
           "patterns": [
-            { "include": "#strings" },
-            { "include": "#numbers" }
+            {
+              "match": "(?xi)(book)(\\.)(title|author|status)[ \\t]*(:)(.*)",
+              "captures": {
+                "1": {"name": "support.class.makenovel"},
+                "2": {"name": "punctuation.function.makenovel"},
+                "3": {"name": "variable.language.internal.makenovel"},
+                "4": {"name": "punctuation.function.makenovel"},
+                "5": {
+                  "patterns": [
+                    { "include": "#strings" },
+                    { "include": "#numbers" }
+                  ]
+                }
+              }
+            },
+            {
+              "match": "(?xi)(character)(\\.)(name|nickname|status)[ \\t]*(:)(.*)",
+              "captures": {
+                "1": {"name": "support.class.makenovel"},
+                "2": {"name": "punctuation.function.makenovel"},
+                "3": {"name": "variable.language.internal.makenovel"},
+                "4": {"name": "punctuation.function.makenovel"},
+                "5": {
+                  "patterns": [
+                    { "include": "#strings" },
+                    { "include": "#numbers" }
+                  ]
+                }
+              }
+            },
+            {
+              "match": "(?xi)(scene)(\\.)(pow|character|compile)[ \\t]*(:)(.*)",
+              "captures": {
+                "1": {"name": "support.class.makenovel"},
+                "2": {"name": "punctuation.function.makenovel"},
+                "3": {"name": "variable.language.internal.makenovel"},
+                "4": {"name": "punctuation.function.makenovel"},
+                "5": {
+                  "patterns": [
+                    { "include": "#strings" },
+                    { "include": "#numbers" }
+                  ]
+                }
+              }
+            }
           ],
           "end": "\\n"
+        },
+        {
+          "begin": "(?xi)^[ \\t]*(@)(add)[ \\t]*\\b",
+          "beginCaptures": {
+            "1": {"name": "keyword.control.starter.makenovel"},
+            "2": {"name": "keyword.control.command.makenovel"}
+          },
+          "patterns": [
+            {
+              "match": "(?xi)(character|chapter|scene)[ \\t]*(:)(.*)",
+              "captures": {
+                "1": {"name": "support.class.makenovel"},
+                "2": {"name": "punctuation.function.makenovel"},
+                "3": {
+                  "patterns": [
+                    { "include": "#strings" },
+                    { "include": "#numbers" }
+                  ]
+                }
+              }
+            }
+          ],
+          "end": "\\n"
+        }
+      ]
+    },
+    "variables": {
+      "patterns": [
+        {
+          "match": "(?xi)[ \\t]+(\\$)([a-zA-Z]{1}[a-zA-Z0-9_]+)[ \\t]",
+          "captures": {
+            "1": {"name": "support.function.makenovel"},
+            "2": {"name": "punctuation.function.makenovel"}
+          }
         }
       ]
     },
@@ -42,10 +131,11 @@
         {
           "name": "constant.character.escape.makenovel",
           "match": "\\\\."
-        }
+        },
+        { "include": "echo" }
       ]
     },
-    "text": {
+    "markup": {
       "patterns": [
         {
           "match": "(?<![\\w|\\\\])([\\*]{2})(?!\\s)(?m:(.+?))(?<![\\s|\\\\])(\\1)(?!\\w)",
@@ -70,9 +160,14 @@
           "captures": {
             "1": {"name": "constant.numeric.integer.makenovel"}
           }
+        },
+        {
+          "match": "(?xi)\\b(?<!\\.)(true|false|yes|no)\\b",
+          "captures": {
+            "1": {"name": "constant.numeric.boolean.madx"}
+          }
         }
       ]
     }
-  },
-  "scopeName": "source.makenovel"
+  }
 }
