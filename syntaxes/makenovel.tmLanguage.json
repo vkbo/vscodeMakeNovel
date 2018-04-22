@@ -22,7 +22,7 @@
     "keywords": {
       "patterns": [
         {
-          "match": "(?xi)^[ \\t]*(@)(master|scene)\\b",
+          "match": "(?xi)^[ \\t]*(@)(include|master|scene)\\b",
           "captures": {
             "1": {"name": "keyword.control.starter.makenovel"},
             "2": {"name": "keyword.control.command.makenovel"}
@@ -55,7 +55,7 @@
               }
             },
             {
-              "match": "(?xi)(character)(\\.)(name|nickname|status|importance)[ \\t]*(:)(.*)",
+              "match": "(?xi)(chapter)(\\.)(title|type)[ \\t]*(:)(.*)",
               "captures": {
                 "1": {"name": "support.class.makenovel"},
                 "2": {"name": "punctuation.function.makenovel"},
@@ -70,7 +70,37 @@
               }
             },
             {
-              "match": "(?xi)(scene)(\\.)(pow|character|compile|status)[ \\t]*(:)(.*)",
+              "match": "(?xi)(character)(\\.)(name|nick|type|description)[ \\t]*(:)(.*)",
+              "captures": {
+                "1": {"name": "support.class.makenovel"},
+                "2": {"name": "punctuation.function.makenovel"},
+                "3": {"name": "variable.language.internal.makenovel"},
+                "4": {"name": "punctuation.function.makenovel"},
+                "5": {
+                  "patterns": [
+                    { "include": "#strings" },
+                    { "include": "#numbers" }
+                  ]
+                }
+              }
+            },
+            {
+              "match": "(?xi)(flag)(\\.)(description|parent|value)[ \\t]*(:)(.*)",
+              "captures": {
+                "1": {"name": "support.class.makenovel"},
+                "2": {"name": "punctuation.function.makenovel"},
+                "3": {"name": "variable.language.internal.makenovel"},
+                "4": {"name": "punctuation.function.makenovel"},
+                "5": {
+                  "patterns": [
+                    { "include": "#strings" },
+                    { "include": "#numbers" }
+                  ]
+                }
+              }
+            },
+            {
+              "match": "(?xi)(scene)(\\.)(pow|characters|compile|status)[ \\t]*(:)(.*)",
               "captures": {
                 "1": {"name": "support.class.makenovel"},
                 "2": {"name": "punctuation.function.makenovel"},
@@ -95,7 +125,7 @@
           },
           "patterns": [
             {
-              "match": "(?xi)(character|prologue|chapter|epilogue|scene)[ \\t]*(:)(.*)",
+              "match": "(?xi)(character|chapter|flag|scene)[ \\t]*(:)(.*)",
               "captures": {
                 "1": {"name": "support.class.makenovel"},
                 "2": {"name": "punctuation.function.makenovel"},
@@ -164,7 +194,14 @@
         {
           "match": "(?xi)\\b(?<!\\.)(true|false|yes|no)\\b",
           "captures": {
-            "1": {"name": "constant.numeric.boolean.madx"}
+            "1": {"name": "constant.numeric.boolean.makenovel"}
+          }
+        },
+        {
+          "match": "(?x)\\b(?<!\\.)(CH_)(FRONTMATTER|FM|PROLOGUE|PRO|CHAPTER|CH|EPILOGUE|EPI|BACKMATTER|BM)\\b",
+          "captures": {
+            "1": {"name": "constant.flag.chapter.makenovel"},
+            "2": {"name": "constant.flag.chapter.makenovel"}
           }
         }
       ]
